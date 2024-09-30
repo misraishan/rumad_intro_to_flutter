@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:my_app/projects_screen.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 void main() {
   runApp(const MyApp());
@@ -33,7 +34,7 @@ class MyHomePage extends StatelessWidget {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(title),
       ),
-      body: const Center(
+      body: Center(
         child: ProfileCard(),
       ),
     );
@@ -41,8 +42,26 @@ class MyHomePage extends StatelessWidget {
 }
 
 class ProfileCard extends StatelessWidget {
-  const ProfileCard({super.key});
-
+  ProfileCard({super.key});
+  final List<Map<String, dynamic>> projects = [
+    {
+      'title': 'Flutter Profile App',
+      'description':
+          'A demo app showcasing navigation and UI design in Flutter.',
+      'isPinned': false
+    },
+    {
+      'title': 'Rutgers Research Project',
+      'description':
+          'Developed as part of the CS program at Rutgers University.',
+      'isPinned': false
+    },
+    {
+      'title': 'Rusty Linux',
+      'description': 'Rebuilt Linux in rust.',
+      'isPinned': false
+    },
+  ];
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -64,7 +83,7 @@ class ProfileCard extends StatelessWidget {
                   ),
                   SizedBox(height: 16),
                   Text(
-                    "Name",
+                    "Full Name",
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -93,7 +112,7 @@ class ProfileCard extends StatelessWidget {
               ),
             ),
             const Text(
-              "I'm an CS student at Rutgers, and I love to code.",
+              "I'm a CS student at Rutgers, and I love da code.",
               style: TextStyle(fontSize: 14),
             ),
             const SizedBox(height: 16),
@@ -116,7 +135,7 @@ class ProfileCard extends StatelessWidget {
                     Icon(Icons.school, size: 28),
                     SizedBox(height: 4),
                     Text(
-                      "Rutgers",
+                      "Ruggers",
                       style:
                           TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
                     ),
@@ -139,15 +158,25 @@ class ProfileCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                _buildSocialButton(Icons.code, "GitHub", () {
-                  Clipboard.setData(const ClipboardData(
-                      text: "https://github.com/misraishan"));
-                }),
-                _buildSocialButton(Icons.work_history_outlined, "LinkedIn", () {
-                  Clipboard.setData(const ClipboardData(
-                      text: "https://www.linkedin.com/in/misraishan/"));
-                }),
+                _buildSocialButton(
+                    Icons.code, "GitHub", "https://github.com/{your_gh_here}"),
+                _buildSocialButton(Icons.work_history_outlined, "LinkedIn",
+                    "https://www.linkedin.com/in/{your_linkedin_here}/")
               ],
+            ),
+            const SizedBox(height: 16),
+            Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            ProjectScreen(projects: projects)),
+                  );
+                },
+                child: const Text('View Projects'),
+              ),
             ),
           ],
         ),
@@ -155,29 +184,12 @@ class ProfileCard extends StatelessWidget {
     );
   }
 
-  Widget _buildInfoColumn(IconData icon, String title, String value) {
-    return Column(
-      children: <Widget>[
-        Icon(icon, size: 28),
-        const SizedBox(height: 4),
-        Text(
-          title,
-          style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
-        ),
-        Text(
-          value,
-          style: const TextStyle(fontSize: 12),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildSocialButton(
-      IconData icon, String labelText, VoidCallback onPressed) {
+  Widget _buildSocialButton(IconData icon, String labelText, String url) {
     return ElevatedButton.icon(
-      icon: Icon(icon),
-      label: Text(labelText),
-      onPressed: onPressed,
-    );
+        icon: Icon(icon),
+        label: Text(labelText),
+        onPressed: () {
+          launchUrl(Uri.parse(url));
+        });
   }
 }
