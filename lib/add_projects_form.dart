@@ -13,11 +13,11 @@ class AddProjectForm extends StatefulWidget {
   const AddProjectForm({super.key, this.initialTitle, this.initialDescription});
 
   @override
-  _AddProjectFormState createState() => _AddProjectFormState();
+  AddProjectFormState createState() => AddProjectFormState();
 }
 
 // State class to handle form inputs and state changes
-class _AddProjectFormState extends State<AddProjectForm> {
+class AddProjectFormState extends State<AddProjectForm> {
   // Key to keep track of the form and its state
   final _formKey = GlobalKey<FormState>();
 

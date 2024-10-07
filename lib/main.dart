@@ -34,7 +34,7 @@ class MyHomePage extends StatelessWidget {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(title),
       ),
-      body: Center(
+      body: const Center(
         child: ProfileCard(),
       ),
     );
@@ -42,7 +42,7 @@ class MyHomePage extends StatelessWidget {
 }
 
 class ProfileCard extends StatelessWidget {
-  ProfileCard({super.key});
+  const ProfileCard({super.key});
   @override
   Widget build(BuildContext context) {
     return Card(
