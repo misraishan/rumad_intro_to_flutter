@@ -13,6 +13,16 @@ class ProjectScreen extends StatefulWidget {
 class _ProjectScreenState extends State<ProjectScreen> {
   late List<Map<String, dynamic>> _projects;
 
+  @override
+  void initState() {
+    super.initState();
+
+    _projects = widget.projects
+        .map((project) => Map<String, dynamic>.from(project))
+        .toList();
+    sortProjectsList();
+  }
+
   void _addProject() async {
     final newProject = await Navigator.push(
       context,
@@ -21,29 +31,22 @@ class _ProjectScreenState extends State<ProjectScreen> {
 
     if (newProject != null) {
       setState(() {
-        _projects.add(newProject);
+        _projects.add(Map<String, dynamic>.from(newProject));
         sortProjectsList();
       });
     }
   }
 
+  void _togglePinProject(int index) {
+    setState(() {
+      _projects[index]['isPinned'] = !(_projects[index]['isPinned'] ?? false);
+      sortProjectsList();
+    });
+  }
+
   void sortProjectsList() {
     _projects.sort(
         (a, b) => b['isPinned'].toString().compareTo(a['isPinned'].toString()));
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _projects = List.from(widget.projects);
-    sortProjectsList();
-  }
-
-  void _togglePinProject(int index) {
-    setState(() {
-      _projects[index]['isPinned'] = !_projects[index]['isPinned'];
-      sortProjectsList();
-    });
   }
 
   @override
@@ -61,7 +64,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
                 style: const TextStyle(fontWeight: FontWeight.bold)),
             subtitle: Text(project['description']),
             trailing: IconButton(
-              icon: Icon(project.containsKey('isPinned') && project['isPinned']
+              icon: Icon(project['isPinned'] == true
                   ? Icons.push_pin
                   : Icons.push_pin_outlined),
               onPressed: () => _togglePinProject(index),
