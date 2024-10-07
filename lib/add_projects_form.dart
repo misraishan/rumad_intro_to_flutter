@@ -21,6 +21,10 @@ class _AddProjectFormState extends State<AddProjectForm> {
   // Key to keep track of the form and its state
   final _formKey = GlobalKey<FormState>();
 
+  // Use text editing controllers to keep track of the input field values
+  final _titleController = TextEditingController();
+  final _descriptionController = TextEditingController();
+
   // Variables to store title and description entered by the user
   String? title;
   String? description;
@@ -29,10 +33,19 @@ class _AddProjectFormState extends State<AddProjectForm> {
   @override
   void initState() {
     super.initState();
-    title = widget.initialTitle ??
+    _titleController.text = widget.initialTitle ??
         ''; // If no initial title, set it to an empty string
-    description = widget.initialDescription ??
+    _descriptionController.text = widget.initialDescription ??
         ''; // If no initial description, set it to empty
+  }
+
+  // Clean up the text editing controllers when the widget is removed
+  @override
+  void dispose() {
+    super.dispose();
+
+    _titleController.dispose();
+    _descriptionController.dispose();
   }
 
   // Building the UI
@@ -53,8 +66,7 @@ class _AddProjectFormState extends State<AddProjectForm> {
             children: [
               // Input field for project title
               TextFormField(
-                initialValue:
-                    title, // If editing, the title will already be filled in
+                controller: _titleController,
                 decoration: const InputDecoration(labelText: "Project Title"),
                 // When the form is saved, the entered value is stored in the 'title' variable
                 onSaved: (value) {
@@ -70,8 +82,7 @@ class _AddProjectFormState extends State<AddProjectForm> {
               ),
               // Input field for project description
               TextFormField(
-                initialValue:
-                    description, // If editing, the description will already be filled in
+                controller: _descriptionController,
                 decoration:
                     const InputDecoration(labelText: "Project Description"),
                 // When the form is saved, the entered value is stored in the 'description' variable
@@ -99,9 +110,10 @@ class _AddProjectFormState extends State<AddProjectForm> {
 
                     // Close the form and pass back the entered title and description
                     Navigator.pop(context, {
-                      'title': title, // Send back the project title
-                      'description':
-                          description, // Send back the project description
+                      'title':
+                          _titleController.text, // Send back the project title
+                      'description': _descriptionController
+                          .text, // Send back the project description
                     });
                   }
                 },
