@@ -64,7 +64,7 @@ class ProfileCard extends StatelessWidget {
                   ),
                   SizedBox(height: 16),
                   Text(
-                    "Full Name",
+                    "Your Name",
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -93,7 +93,7 @@ class ProfileCard extends StatelessWidget {
               ),
             ),
             const Text(
-              "I'm a CS student at Rutgers, and I love da code.",
+              "I'm a CS student at Rutgers, and I love to code.",
               style: TextStyle(fontSize: 14),
             ),
             const SizedBox(height: 16),
@@ -105,7 +105,7 @@ class ProfileCard extends StatelessWidget {
                     Icon(Icons.work, size: 28),
                     SizedBox(height: 4),
                     Text(
-                      "Company Inc.",
+                      "Company",
                       style:
                           TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
                     ),
@@ -116,7 +116,7 @@ class ProfileCard extends StatelessWidget {
                     Icon(Icons.school, size: 28),
                     SizedBox(height: 4),
                     Text(
-                      "Ruggers",
+                      "Rutgers",
                       style:
                           TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
                     ),
@@ -184,10 +184,11 @@ class ProfileCard extends StatelessWidget {
 
   Widget _buildSocialButton(IconData icon, String labelText, String url) {
     return ElevatedButton.icon(
-        icon: Icon(icon),
-        label: Text(labelText),
-        onPressed: () {
-          launchUrl(Uri.parse(url));
-        });
+      icon: Icon(icon),
+      label: Text(labelText),
+      onPressed: () {
+        launchUrl(Uri.parse(url));
+      },
+    );
   }
 }
