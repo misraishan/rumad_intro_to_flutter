@@ -43,25 +43,6 @@ class MyHomePage extends StatelessWidget {
 
 class ProfileCard extends StatelessWidget {
   ProfileCard({super.key});
-  final List<Map<String, dynamic>> projects = [
-    {
-      'title': 'Flutter Profile App',
-      'description':
-          'A demo app showcasing navigation and UI design in Flutter.',
-      'isPinned': false
-    },
-    {
-      'title': 'Rutgers Research Project',
-      'description':
-          'Developed as part of the CS program at Rutgers University.',
-      'isPinned': false
-    },
-    {
-      'title': 'Rusty Linux',
-      'description': 'Rebuilt Linux in rust.',
-      'isPinned': false
-    },
-  ];
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -166,16 +147,33 @@ class ProfileCard extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             Center(
-              child: ElevatedButton(
+              child: FilledButton(
                 onPressed: () {
                   Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            ProjectScreen(projects: projects)),
-                  );
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ProjectScreen(
+                          projects: [
+                            {
+                              "title": "Project title",
+                              "description": "desc",
+                              "isPinned": false,
+                            },
+                            {
+                              "title": "Project title 2",
+                              "description": "desc 2",
+                              "isPinned": false,
+                            },
+                            {
+                              "title": "Project title 3",
+                              "description": "desc 3",
+                              "isPinned": false,
+                            }
+                          ],
+                        ),
+                      ));
                 },
-                child: const Text('View Projects'),
+                child: const Text("Projects"),
               ),
             ),
           ],
