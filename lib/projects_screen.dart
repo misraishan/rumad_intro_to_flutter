@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/add_projects_form.dart';
 
 class ProjectScreen extends StatefulWidget {
   final List<Map<String, dynamic>> projects;
@@ -11,6 +12,18 @@ class ProjectScreen extends StatefulWidget {
 
 class _ProjectScreenState extends State<ProjectScreen> {
   late List<Map<String, dynamic>> _projects;
+
+  void _addProject() async {
+    final newProject = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const AddProjectForm()),
+    );
+    if (newProject != null) {
+      setState(() {
+        widget.projects.add(newProject);
+      });
+    }
+  }
 
   void sortProjectsList() {
     _projects.sort(
@@ -53,6 +66,10 @@ class _ProjectScreenState extends State<ProjectScreen> {
             ),
           );
         },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _addProject,
+        child: const Icon(Icons.add),
       ),
     );
   }
