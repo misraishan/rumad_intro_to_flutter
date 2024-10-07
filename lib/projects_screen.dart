@@ -18,9 +18,11 @@ class _ProjectScreenState extends State<ProjectScreen> {
       context,
       MaterialPageRoute(builder: (context) => const AddProjectForm()),
     );
+
     if (newProject != null) {
       setState(() {
-        widget.projects.add(newProject);
+        _projects.add(newProject);
+        sortProjectsList();
       });
     }
   }
@@ -59,7 +61,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
                 style: const TextStyle(fontWeight: FontWeight.bold)),
             subtitle: Text(project['description']),
             trailing: IconButton(
-              icon: Icon(project['isPinned']
+              icon: Icon(project.containsKey('isPinned') && project['isPinned']
                   ? Icons.push_pin
                   : Icons.push_pin_outlined),
               onPressed: () => _togglePinProject(index),
